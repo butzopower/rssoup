@@ -3,6 +3,7 @@ package com.github.butzopower.rssoup.doubles;
 import com.github.butzopower.rssoup.MenuStore;
 import com.github.butzopower.rssoup.entities.Menu;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +22,10 @@ public class FakeMenuStore implements MenuStore {
     @Override
     public void saveMenu(Menu menuToSave) {
         this.menus.add(menuToSave);
+    }
+
+    @Override
+    public boolean menuExistsOn(LocalDate date) {
+        return this.menus.stream().anyMatch(menu -> menu.getDate().equals(date));
     }
 }

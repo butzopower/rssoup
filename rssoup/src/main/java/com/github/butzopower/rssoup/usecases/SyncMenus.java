@@ -19,7 +19,11 @@ public class SyncMenus {
 
     public void execute() {
         List<Menu> fetchedMenus = this.menuFetcher.fetchMenus();
-        fetchedMenus.forEach(this.menuStore::saveMenu);
+        fetchedMenus.forEach(menuToSave -> {
+            if (!this.menuStore.menuExistsOn(menuToSave.getDate())) {
+                this.menuStore.saveMenu(menuToSave);
+            }
+        });
         this.observer.syncWasSuccessful();
     }
 }

@@ -8,6 +8,7 @@ import com.github.butzopower.rssoup.entities.Menu;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,10 @@ public class SyncMenusTest {
     MenuFetcher menuFetcher;
     MenuStore menuStore;
 
-    List<Menu> expectedMenus = Arrays.asList(new Menu(), new Menu());
+    LocalDate date1 = LocalDate.of(2017, 10, 28);
+    LocalDate date2 = LocalDate.of(2017, 11, 17);
+
+    List<Menu> expectedMenus = Arrays.asList(new Menu(date1), new Menu(date2));
 
     @Before
     public void setUp() throws Exception {
@@ -41,6 +45,16 @@ public class SyncMenusTest {
     public void syncsMenusFromAMenuFetcherToAMenuRepository() throws Exception {
         SyncMenus syncMenus = new SyncMenus(guiSpy, menuFetcher, menuStore);
 
+        syncMenus.execute();
+
+        assertThat(this.menuStore.allMenus(), equalTo(expectedMenus));
+    }
+
+    @Test
+    public void syncingTheSameItemsMultipleTimesOnlyIncludesTheMenusOnce() throws Exception {
+        SyncMenus syncMenus = new SyncMenus(guiSpy, menuFetcher, menuStore);
+
+        syncMenus.execute();
         syncMenus.execute();
 
         assertThat(this.menuStore.allMenus(), equalTo(expectedMenus));
