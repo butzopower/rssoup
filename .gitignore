@@ -4,5 +4,9 @@ gradlew.bat
 gradle
 .gradle
 
+# build
+out/
+build/
+
 # IDEs
 .idea

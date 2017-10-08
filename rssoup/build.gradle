@@ -1,1 +1,14 @@
 group 'com.github.butzopower.rssoup'
+
+configurations {
+    testHelpers
+}
+
+task testJar (type: Jar) {
+    baseName = "testHelpers"
+    from sourceSets.test.output
+}
+
+artifacts {
+    testHelpers testJar
+}

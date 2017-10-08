@@ -1,0 +1,4 @@
+dependencies {
+    testCompile project (path: ":rssoup")
+    testCompile project (path: ":rssoup", configuration: 'testHelpers')
+}

@@ -1,3 +1,4 @@
 rootProject.name = 'rssoup'
 
 include "rssoup"
+include "features"
