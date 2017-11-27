@@ -1,13 +1,15 @@
 package com.github.butzopower.rssoup.features;
 
 import com.github.butzopower.rssoup.doubles.FakeMenuStore;
-import com.github.butzopower.rssoup.doubles.MenuFetcherStub;
+import com.github.butzopower.rssoup.doubles.PostingFetcherStub;
 import com.github.butzopower.rssoup.entities.Menu;
+import com.github.butzopower.rssoup.entities.Posting;
 import com.github.butzopower.rssoup.usecases.FetchMenus;
 import com.github.butzopower.rssoup.usecases.SyncMenus;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class SyncingAndFetchingMenus {
 
     private static class SyncedMenusCanBeFetched {
         private FakeMenuStore menuStore;
-        private MenuFetcherStub menuFetcher;
+        private PostingFetcherStub menuFetcher;
         private List<Menu> fetchedMenus;
 
         public SyncedMenusCanBeFetched() {
@@ -35,7 +37,7 @@ public class SyncingAndFetchingMenus {
         }
 
         void Given_somePostsHaveBeenMadeOnTwitter() {
-            this.menuFetcher = new MenuFetcherStub(this.buildMenus());
+            this.menuFetcher = new PostingFetcherStub(this.buildPostings());
         }
 
         void And_thosePostsHaveBeenSynced() {
@@ -57,6 +59,11 @@ public class SyncingAndFetchingMenus {
         private List<Menu> buildMenus() {
             return Arrays.asList(new Menu(LocalDate.of(2017, 10, 28)));
         }
+
+        private List<Posting> buildPostings() {
+            return Arrays.asList(new Posting(LocalDateTime.of(2017, 10, 28, 0, 0)));
+        }
+
     }
 
 }
