@@ -1,0 +1,4 @@
+dependencies {
+    compile project (path: ":rssoup")
+    compile("org.springframework.social:spring-social-twitter:1.1.2.RELEASE")
+}

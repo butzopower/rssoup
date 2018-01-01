@@ -2,3 +2,4 @@ rootProject.name = 'rssoup'
 
 include "rssoup"
 include "features"
+include "twitter-posting-fetcher"
