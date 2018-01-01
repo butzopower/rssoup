@@ -23,12 +23,14 @@ public class TwitterBackedPostingFetcher implements PostingFetcher {
     @Override
     public List<Posting> fetchPostings() {
         List<Tweet> tweets = twitter.timelineOperations().getUserTimeline(twitterHandle);
-        return tweets.stream().map(this::mapTweetToPosting).collect(toList());
+        return tweets.stream()
+                .map(this::mapTweetToPosting)
+                .collect(toList());
     }
 
     private Posting mapTweetToPosting(Tweet tweet) {
         LocalDateTime createdAt = tweet.getCreatedAt().toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
-        return new Posting(createdAt);
+        return new Posting("Today's Soups are delicious", createdAt);
     }
 
     private TwitterTemplate buildTwitterTemplate(String apiKey, String apiSecret) {

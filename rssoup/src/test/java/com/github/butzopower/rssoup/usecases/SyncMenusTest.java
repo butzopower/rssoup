@@ -16,7 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.github.butzopower.rssoup.RssSoup.syncMenus;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertThat;
 
 public class SyncMenusTest {
@@ -30,8 +33,15 @@ public class SyncMenusTest {
     LocalDateTime dateTime1 = LocalDateTime.of(date1, LocalTime.of(0, 0));
     LocalDateTime dateTime2 = LocalDateTime.of(date2, LocalTime.of(0, 0));
 
-    List<Posting> postings = Arrays.asList(new Posting(dateTime1), new Posting(dateTime2));
-    List<Menu> expectedMenus = Arrays.asList(new Menu(date1), new Menu(date2));
+    List<Posting> postings = asList(
+            new Posting("Today's Soups are delicious", dateTime1),
+            new Posting("Next Month's Soups are delicious", dateTime2)
+    );
+
+    Menu expectedMenu1 = new Menu(date1);
+    Menu expectedMenu2 = new Menu(date2);
+
+    List<Menu> expectedMenus = asList(expectedMenu1, expectedMenu2);
 
     @Before
     public void setUp() throws Exception {
@@ -60,6 +70,20 @@ public class SyncMenusTest {
         syncMenus(guiSpy, postingFetcher, menuStore);
 
         assertThat(this.menuStore.allMenus(), equalTo(expectedMenus));
+    }
+
+    @Test
+    public void onlyItemsThatPassAFilterAreSynced() throws Exception {
+        syncMenus(
+                guiSpy,
+                postingFetcher,
+                menuStore,
+                posting -> posting.getPostContent().contains("Today")
+        );
+
+        List<Menu> menus = this.menuStore.allMenus();
+
+        assertThat(menus, contains(expectedMenu1));
     }
 
     class GuiSpy implements SyncMenusObserver {
