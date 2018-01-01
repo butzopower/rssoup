@@ -4,8 +4,6 @@ import com.github.butzopower.rssoup.doubles.FakeMenuStore;
 import com.github.butzopower.rssoup.doubles.PostingFetcherStub;
 import com.github.butzopower.rssoup.entities.Menu;
 import com.github.butzopower.rssoup.entities.Posting;
-import com.github.butzopower.rssoup.usecases.FetchMenus;
-import com.github.butzopower.rssoup.usecases.SyncMenus;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.butzopower.rssoup.RssSoup.fetchMenus;
+import static com.github.butzopower.rssoup.RssSoup.syncMenus;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -41,15 +41,18 @@ public class SyncingAndFetchingMenus {
         }
 
         void And_thosePostsHaveBeenSynced() {
-            SyncMenus syncMenusUseCase = new SyncMenus(() -> {}, this.menuFetcher, this.menuStore);
-            syncMenusUseCase.execute();
+            syncMenus(
+                    () -> {},
+                    this.menuFetcher,
+                    this.menuStore
+            );
         }
 
         void When_IFetchMenus() {
-            FetchMenus fetchMenus = new FetchMenus(
+            fetchMenus(
                     fetchedMenus -> this.fetchedMenus = fetchedMenus,
-                    this.menuStore);
-            fetchMenus.execute();
+                    this.menuStore
+            );
         }
 
         void Then_ISeeAListOfTheLatestMenus() {

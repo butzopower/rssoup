@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.github.butzopower.rssoup.RssSoup.fetchMenus;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 
@@ -23,7 +24,7 @@ public class FetchMenusTest {
         menuStore.saveMenu(menu1);
         menuStore.saveMenu(menu2);
 
-        new FetchMenus(guiSpy, menuStore).execute();
+        fetchMenus(guiSpy, menuStore);
 
         assertThat(guiSpy.getMostRecentlyFetchMenus(), containsInAnyOrder(menu1, menu2));
     }

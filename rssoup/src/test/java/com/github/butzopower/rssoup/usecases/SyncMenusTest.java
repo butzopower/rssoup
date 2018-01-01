@@ -1,7 +1,7 @@
 package com.github.butzopower.rssoup.usecases;
 
-import com.github.butzopower.rssoup.PostingFetcher;
 import com.github.butzopower.rssoup.MenuStore;
+import com.github.butzopower.rssoup.PostingFetcher;
 import com.github.butzopower.rssoup.doubles.FakeMenuStore;
 import com.github.butzopower.rssoup.doubles.PostingFetcherStub;
 import com.github.butzopower.rssoup.entities.Menu;
@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.butzopower.rssoup.RssSoup.syncMenus;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -41,28 +42,22 @@ public class SyncMenusTest {
 
     @Test
     public void notifiesWhenTheSyncingIsSuccessful() throws Exception {
-        SyncMenus syncMenus = new SyncMenus(guiSpy, postingFetcher, menuStore);
-
-        syncMenus.execute();
+        syncMenus(guiSpy, postingFetcher, menuStore);
 
         assertThat(guiSpy.wasSyncSuccessful(), equalTo(true));
     }
 
     @Test
     public void syncsMenusFromAMenuFetcherToAMenuRepository() throws Exception {
-        SyncMenus syncMenus = new SyncMenus(guiSpy, postingFetcher, menuStore);
-
-        syncMenus.execute();
+        syncMenus(guiSpy, postingFetcher, menuStore);
 
         assertThat(this.menuStore.allMenus(), equalTo(expectedMenus));
     }
 
     @Test
     public void syncingTheSameItemsMultipleTimesOnlyIncludesTheMenusOnce() throws Exception {
-        SyncMenus syncMenus = new SyncMenus(guiSpy, postingFetcher, menuStore);
-
-        syncMenus.execute();
-        syncMenus.execute();
+        syncMenus(guiSpy, postingFetcher, menuStore);
+        syncMenus(guiSpy, postingFetcher, menuStore);
 
         assertThat(this.menuStore.allMenus(), equalTo(expectedMenus));
     }
