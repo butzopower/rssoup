@@ -2,11 +2,13 @@ package com.github.butzopower.rssoup.postingfetcher.twitter;
 
 import com.github.butzopower.rssoup.PostingFetcher;
 import com.github.butzopower.rssoup.entities.Posting;
+import org.springframework.social.twitter.api.MediaEntity;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.impl.TwitterTemplate;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -29,8 +31,11 @@ public class TwitterBackedPostingFetcher implements PostingFetcher {
     }
 
     private Posting mapTweetToPosting(Tweet tweet) {
-        LocalDateTime createdAt = tweet.getCreatedAt().toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
-        return new Posting("Today's Soups are delicious", null, createdAt);
+        String postContent = tweet.getText();
+        String imageUrl = extractUrlFromMedia(tweet.getEntities().getMedia());
+        LocalDateTime createdAt = convertDateToLocalDateTime(tweet.getCreatedAt());
+
+        return new Posting(postContent, imageUrl, createdAt);
     }
 
     private TwitterTemplate buildTwitterTemplate(String apiKey, String apiSecret) {
@@ -38,5 +43,16 @@ public class TwitterBackedPostingFetcher implements PostingFetcher {
                 apiKey,
                 apiSecret
         );
+    }
+
+    private LocalDateTime convertDateToLocalDateTime(Date date) {
+        return date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
+    }
+
+    private String extractUrlFromMedia(List<MediaEntity> media) {
+        return media.stream()
+                .findFirst()
+                .map(MediaEntity::getMediaUrl)
+                .orElse(null);
     }
 }

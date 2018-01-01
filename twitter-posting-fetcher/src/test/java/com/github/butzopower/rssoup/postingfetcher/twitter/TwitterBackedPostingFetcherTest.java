@@ -7,11 +7,10 @@ import org.junit.Test;
 import java.util.List;
 
 import static com.github.butzopower.rssoup.postingfetcher.twitter.TestSetup.*;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assume.assumeThat;
 
 public class TwitterBackedPostingFetcherTest {
@@ -30,6 +29,16 @@ public class TwitterBackedPostingFetcherTest {
                 TWITTER_HANDLE
         );
         List<Posting> postings = fetcher.fetchPostings();
+
         assertThat(postings, hasSize(greaterThan(0)));
+
+        boolean postingWithContentExists = postings.stream()
+                .anyMatch(posting -> posting.getPostContent() != null);
+
+        boolean postingWithImageUrlExists = postings.stream()
+                .anyMatch(posting -> posting.getImageUrl() != null);
+
+        assertTrue(postingWithContentExists);
+        assertTrue(postingWithImageUrlExists);
     }
 }
