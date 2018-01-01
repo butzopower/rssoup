@@ -30,7 +30,7 @@ public class TwitterBackedPostingFetcher implements PostingFetcher {
 
     private Posting mapTweetToPosting(Tweet tweet) {
         LocalDateTime createdAt = tweet.getCreatedAt().toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
-        return new Posting("Today's Soups are delicious", createdAt);
+        return new Posting("Today's Soups are delicious", null, createdAt);
     }
 
     private TwitterTemplate buildTwitterTemplate(String apiKey, String apiSecret) {

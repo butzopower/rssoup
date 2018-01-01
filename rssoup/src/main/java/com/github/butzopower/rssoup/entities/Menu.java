@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Menu {
+    private final String imageUrl;
     private final LocalDate date;
 
-    public Menu(LocalDate date) {
+    public Menu(String imageUrl, LocalDate date) {
+        this.imageUrl = imageUrl;
         this.date = date;
     }
 
@@ -14,12 +16,20 @@ public class Menu {
         return date;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Menu menu = (Menu) o;
-        return Objects.equals(date, menu.date);
+        boolean equals =
+                Objects.equals(date, menu.date)
+                && Objects.equals(imageUrl, menu.imageUrl)
+                ;
+        return equals;
     }
 
     @Override

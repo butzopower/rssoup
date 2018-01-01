@@ -46,6 +46,7 @@ public class SyncMenus {
 
     private Menu convertPostingToMenu(Posting posting) {
         return new Menu(
+                posting.getImageUrl(),
                 posting.getPostedAt().toLocalDate()
         );
     }

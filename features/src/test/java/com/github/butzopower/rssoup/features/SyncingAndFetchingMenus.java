@@ -55,12 +55,21 @@ public class SyncingAndFetchingMenus {
         }
 
         private List<Menu> buildMenus() {
-            return asList(new Menu(LocalDate.of(2017, 10, 28)));
+            return asList(
+                    new Menu(
+                            "http://example.com/souppix1.jpg",
+                            LocalDate.of(2017, 10, 28)
+                    )
+            );
         }
 
         private List<Posting> buildPostings() {
             return asList(
-                    new Posting("Today's Soups are delicious", LocalDateTime.of(2017, 10, 28, 0, 0))
+                    new Posting(
+                            "Today's Soups are delicious",
+                            "http://example.com/souppix1.jpg",
+                            LocalDateTime.of(2017, 10, 28, 0, 0)
+                    )
             );
         }
 
@@ -87,11 +96,13 @@ public class SyncingAndFetchingMenus {
         private List<Posting> buildPostings() {
             Posting postingThatMatchesFilter = new Posting(
                     "Today's Soups are delicious",
+                    "http://example.com/souppix1.jpg",
                     LocalDateTime.of(2017, 10, 28, 0, 0)
             );
 
             Posting postingThatDoesNotMatchFilter = new Posting(
                     "Random picture of my dog",
+                    "http://example.com/dogpix.jpg",
                     LocalDateTime.of(2017, 10, 29, 0, 0)
             );
 
@@ -102,7 +113,12 @@ public class SyncingAndFetchingMenus {
         }
 
         private List<Menu> expectedMenus() {
-            return asList(new Menu(LocalDate.of(2017, 10, 28)));
+            return asList(
+                    new Menu(
+                            "http://example.com/souppix1.jpg",
+                            LocalDate.of(2017, 10, 28)
+                    )
+            );
         }
     }
 

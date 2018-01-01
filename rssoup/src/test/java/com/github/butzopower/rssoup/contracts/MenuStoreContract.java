@@ -20,7 +20,7 @@ public abstract class MenuStoreContract {
     public void savedMenusAreRetrievable() throws Exception {
         MenuStore menuStore = menuStoreFactory();
 
-        Menu menuToSave = new Menu(LocalDate.of(2017, 10, 28));
+        Menu menuToSave = new Menu(null, LocalDate.of(2017, 10, 28));
 
         menuStore.saveMenu(menuToSave);
 
@@ -36,7 +36,7 @@ public abstract class MenuStoreContract {
         LocalDate otherDate = LocalDate.of(2017, 9, 18);
 
         MenuStore menuStore = menuStoreFactory();
-        Menu menuToSave = new Menu(date);
+        Menu menuToSave = new Menu(null, date);
 
         assertThat(menuStore.menuExistsOn(date), equalTo(false));
 

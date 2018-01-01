@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.github.butzopower.rssoup.RssSoup.syncMenus;
@@ -34,12 +33,12 @@ public class SyncMenusTest {
     LocalDateTime dateTime2 = LocalDateTime.of(date2, LocalTime.of(0, 0));
 
     List<Posting> postings = asList(
-            new Posting("Today's Soups are delicious", dateTime1),
-            new Posting("Next Month's Soups are delicious", dateTime2)
+            new Posting("Today's Soups are delicious", "image1.jpg", dateTime1),
+            new Posting("Next Month's Soups are delicious", "image2.jpg", dateTime2)
     );
 
-    Menu expectedMenu1 = new Menu(date1);
-    Menu expectedMenu2 = new Menu(date2);
+    Menu expectedMenu1 = new Menu("image1.jpg", date1);
+    Menu expectedMenu2 = new Menu("image2.jpg", date2);
 
     List<Menu> expectedMenus = asList(expectedMenu1, expectedMenu2);
 

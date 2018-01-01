@@ -17,8 +17,8 @@ public class FetchMenusTest {
     public void fetchingMenusReportsThemToObserverOnSuccess() throws Exception {
         GuiSpy guiSpy = new GuiSpy();
 
-        Menu menu1 = new Menu(LocalDate.of(2017, 10, 28));
-        Menu menu2 = new Menu(LocalDate.of(2017, 9, 14));
+        Menu menu1 = new Menu(null, LocalDate.of(2017, 10, 28));
+        Menu menu2 = new Menu(null, LocalDate.of(2017, 9, 14));
 
         MenuStore menuStore = new FakeMenuStore();
         menuStore.saveMenu(menu1);
